@@ -216,11 +216,36 @@ const Home = () => {
         } else return text
     }
 
+    const logoutSession = async () => {
+        try {
+            await axios.delete(
+                `${BASE_URL}/authentication/session?api_key=${API_KEY}`,
+                {
+                    data: {
+                        session_id: Cookies.get('session_id'),
+                    },
+                }
+            )
+            Cookies.remove('session_id')
+            setIsLoggedIn(false)
+        } catch (error) {
+            toast.error(error.message)
+        } finally {
+            setUpdateFlag(!updateFlag)
+        }
+    }
     return (
         <>
             <div className="w-screen min-h-screen">
-                <Navbar />
-                <Auth />
+                <Navbar
+                    isLoggedIn={isLoggedIn}
+                    openAuth={() => setIsAuthOpen(true)}
+                    logout={logoutSession}
+                />
+                <Auth
+                    closeModal={() => setIsAuthOpen(false)}
+                    openModal={isAuthOpen}
+                />
                 <div className="w-full h-full px-24 pt-12">
                     {/* SearchBar Handler */}
                     <input
@@ -273,7 +298,7 @@ const Home = () => {
 
                     {/* Now Playing Handler */}
                     {searchInput.length === 0 && nowPlaying.length > 0 && (
-                        <div>
+                        <div className="w-full">
                             <h2 className="text-3xl font-semibold pb-4 text-white/80">
                                 Now Playing
                             </h2>
@@ -352,8 +377,8 @@ const Home = () => {
                             </div>
                         </div>
                     )}
-                    <ToastContainer />
                 </div>
+                <ToastContainer />
             </div>
         </>
     )

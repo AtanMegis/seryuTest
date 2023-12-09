@@ -22,19 +22,13 @@ function App() {
             <Routes>
                 {isLoggedIn && (
                     <>
-                        <Route
-                            path="/favorites"
-                            element={<FavoritedList />}
-                        ></Route>
-                        <Route
-                            path="/watchlist"
-                            element={<WatchList />}
-                        ></Route>
+                        <Route path="/favorites" element={<FavoritedList />} />
+                        <Route path="/watchlist" element={<WatchList />} />
                     </>
                 )}
                 <Route path="/" element={<Home />} />
-                <Route path="*" element={<NotFound />} />
                 <Route path="/movie/:id" element={<MovieDetail />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     )

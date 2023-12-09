@@ -3,6 +3,7 @@ import { API_KEY, BASE_AUTH, BASE_URL } from '../helper/requestAPI.js'
 import { toast } from 'react-toastify'
 import Cookies from 'js-cookie'
 import logo from '../assets/logo.png'
+import axios from 'axios'
 
 const Auth = ({ closeModal, openModal }) => {
     const [isLoaded, setIsLoaded] = useState(false)
@@ -16,9 +17,8 @@ const Auth = ({ closeModal, openModal }) => {
             const res = await axios.get(
                 `${BASE_URL}/authentication/token/new?api_key=${API_KEY}`
             )
-            const dataToken = await res.data.request_token
+            const dataToken = res.data.request_token
             setReqToken(dataToken)
-            console.log(setReqToken(dataToken))
             window.open(`${BASE_AUTH}/${dataToken}`, '_blank')
             setLoadingMsg('Pending Authorization')
             setIsLoading(true)
@@ -35,7 +35,7 @@ const Auth = ({ closeModal, openModal }) => {
     const verifyHandler = async () => {
         try {
             const res = await axios.get(
-                `${BASE_URL}/authentication/session/new?request_token=${reqToken}$api+key=${API_KEY}`
+                `${BASE_URL}/authentication/session/new?request_token=${reqToken}&api_key=${API_KEY}`
             )
             setIsAuth(true)
             setIsLoading(true)
@@ -49,6 +49,7 @@ const Auth = ({ closeModal, openModal }) => {
             setIsLoading(true)
             setLoadingMsg('Failed to Authenticated')
             toast.error(error.message)
+            console.log({ error: error.message })
         } finally {
             setTimeout(() => {
                 setIsLoading(false)
@@ -61,7 +62,7 @@ const Auth = ({ closeModal, openModal }) => {
     return (
         <>
             {openModal ? (
-                <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-black backdrop-blur-md bg-opacity-40">
+                <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-black backdrop-blur-md bg-opacity-50">
                     {isLoading ? (
                         <div className="flex flex-col justify-center items-center w-48 p-4 gap-2 bg-white rounded-lg">
                             <img
@@ -110,11 +111,11 @@ const Auth = ({ closeModal, openModal }) => {
                         <>
                             {isAuth == null || isAuth ? (
                                 <p
-                                    className="text-white text-xs pt-4 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={authenticatedHandler}
                                 >
-                                    {loadingMsg === 'Waiting for approval...'
-                                        ? 'I have approved the request'
+                                    {loadingMsg === 'Pending Authorization'
+                                        ? 'Click here to continue'
                                         : null}
                                 </p>
                             ) : null}
@@ -123,20 +124,20 @@ const Auth = ({ closeModal, openModal }) => {
                         <>
                             {isLoaded ? (
                                 <p
-                                    className="text-white text-xs pt-4 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={() => {
                                         setIsLoaded(false)
                                         setIsAuth(null)
                                     }}
                                 >
-                                    cancel
+                                    Cancel
                                 </p>
                             ) : (
                                 <p
-                                    className="text-white text-xs pt-4 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={closeModal}
                                 >
-                                    close
+                                    Close
                                 </p>
                             )}
                         </>

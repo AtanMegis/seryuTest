@@ -1,21 +1,20 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { MdLogout } from 'react-icons/md'
 
-const Navbar = ({ openAuth, isLoggedIn, logout, setOpenAuth }) => {
+const Navbar = ({ openAuth, isLoggedIn, logout }) => {
     const navigate = useNavigate()
 
     const handleFavoriteClick = () => {
-        setOpenAuth(true) // Set openAuth to true when Favorite is clicked
-        navigate('/favorites')
+        isLoggedIn ? navigate('/favorites') : openAuth()
     }
 
     const handleWatchlistClick = () => {
-        setOpenAuth(true) // Set openAuth to true when Watchlist is clicked
-        navigate('/watchlist')
+        isLoggedIn ? navigate('/watchlist') : openAuth()
     }
 
     return (
-        <div className="max-w-full h-24 bg-softBlue sticky flex justify-between px-16 items-center ">
+        <div className="max-w-full h-24 bg-softBlue sticky flex justify-between px-24 items-center ">
             <h1
                 className="text-3xl font-black tracking-widest text-white hover:cursor-pointer hover:text-slate-300"
                 onClick={() => {
@@ -25,9 +24,24 @@ const Navbar = ({ openAuth, isLoggedIn, logout, setOpenAuth }) => {
                 CINEMA
             </h1>
 
-            <ul className="flex gap-5 text-white font-semibold">
-                <li onClick={handleFavoriteClick}>Favorite</li>
-                <li onClick={handleWatchlistClick}>Watchlist</li>
+            <ul className="flex gap-5 text-white font-semibold  items-center">
+                {isLoggedIn ? (
+                    <>
+                        <li onClick={handleFavoriteClick}>Favorite</li>
+                        <li onClick={handleWatchlistClick}>Watchlist</li>
+                        <button
+                            onClick={logout}
+                            className="hover:text-slate-300 text-white mx-2"
+                        >
+                            <MdLogout size={22} />
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <li onClick={openAuth}>Favorite</li>
+                        <li onClick={openAuth}>Watchlist</li>
+                    </>
+                )}
             </ul>
         </div>
     )
