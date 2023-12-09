@@ -20,10 +20,6 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<NotFound />} />
-                <Route path="/movie/:id" element={<MovieDetail />} />
-
                 {isLoggedIn && (
                     <>
                         <Route
@@ -36,6 +32,9 @@ function App() {
                         ></Route>
                     </>
                 )}
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/movie/:id" element={<MovieDetail />} />
             </Routes>
         </BrowserRouter>
     )

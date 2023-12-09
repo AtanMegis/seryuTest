@@ -1,6 +1,19 @@
 import React from 'react'
+import { FaHeart, FaSave } from 'react-icons/fa'
 
-const Card = ({ title, year, img }) => {
+const Card = ({
+    title,
+    year,
+    img,
+    isWatchlisted,
+    isFavorited,
+    isLoggedIn,
+    addToWatchlist,
+    addToFavoriteList,
+    removeFromWatchlist,
+    removeFromFavorite,
+    redirectDetail,
+}) => {
     return (
         <div className="relative w-48 min-w-fit h-[360px] bg-softBlack group hover:opacity-100 rounded-sm">
             <div className="w-48 h-[290px] object-cover rounded-tr-sm rounded-tl-sm">
@@ -9,9 +22,42 @@ const Card = ({ title, year, img }) => {
                     alt={title}
                     className="aspect-auto rounded-tr-sm rounded-tl-sm"
                 />
+                {isLoggedIn && (
+                    <div className="flex gap-4 absolute -mt-[2rem] ml-[7.5rem] opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+                        {isFavorited ? (
+                            <FaHeart
+                                className="cursor-pointer hover:text-white/90"
+                                size={20}
+                                onClick={() => removeFromFavorite}
+                            />
+                        ) : (
+                            <FaHeart
+                                className="cursor-pointer hover:text-white/90"
+                                size={20}
+                                onClick={() => addToFavoriteList}
+                            />
+                        )}
+                        {isWatchlisted ? (
+                            <FaSave
+                                className="cursor-pointer hover:text-white/90"
+                                size={20}
+                                onClick={() => removeFromWatchlist}
+                            />
+                        ) : (
+                            <FaSave
+                                className="cursor-pointer hover:text-white/90"
+                                size={20}
+                                onClick={() => addToWatchlist}
+                            />
+                        )}
+                    </div>
+                )}
             </div>
-            <div className="flex flex-col text-gray p-3 gap-1 ">
-                <p className="font-bold hover:cursor-pointer hover:text-slate-50 transition-opacity duration-150">
+            <div className="flex flex-col text-gray p-3 gap-1">
+                <p
+                    className="font-bold hover:cursor-pointer hover:text-slate-50 transition-opacity duration-150"
+                    onClick={redirectDetail}
+                >
                     {title}
                 </p>
                 <span className="text-sm italic">{year}</span>

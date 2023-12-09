@@ -2,6 +2,7 @@ import axios from 'axios'
 export const API_KEY = import.meta.env.VITE_API_KEY
 export const BASE_URL = import.meta.env.VITE_BASE_URL
 export const BASE_AUTH = import.meta.env.VITE_AUTH_URL
+export const IMG_KEY = import.meta.env.VITE_IMG
 
 export const requestAPI = {
     requestNowPlaying: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`,
