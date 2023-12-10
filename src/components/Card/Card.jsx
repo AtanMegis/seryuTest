@@ -1,5 +1,8 @@
 import React from 'react'
-import { FaHeart, FaSave } from 'react-icons/fa'
+import { FaSave, FaRegSave, FaHeart, FaRegHeart } from 'react-icons/fa'
+
+import { FaKissWinkHeart } from 'react-icons/fa'
+import { MdHearingDisabled } from 'react-icons/md'
 
 const Card = ({
     title,
@@ -26,28 +29,28 @@ const Card = ({
                     <div className="flex gap-4 absolute -mt-[2rem] ml-[7.5rem] opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
                         {isFavorited ? (
                             <FaHeart
-                                className="cursor-pointer hover:text-white/90"
+                                className="cursor-pointer hover:text-orange-500"
                                 size={20}
-                                onClick={() => removeFromFavorite}
+                                onClick={removeFromFavorite}
                             />
                         ) : (
-                            <FaHeart
-                                className="cursor-pointer hover:text-white/90"
+                            <FaRegHeart
+                                className="cursor-pointer hover:text-orange-500"
                                 size={20}
-                                onClick={() => addToFavoriteList}
+                                onClick={addToFavoriteList}
                             />
                         )}
                         {isWatchlisted ? (
                             <FaSave
-                                className="cursor-pointer hover:text-white/90"
+                                className="cursor-pointer hover:text-orange-500"
                                 size={20}
-                                onClick={() => removeFromWatchlist}
+                                onClick={removeFromWatchlist}
                             />
                         ) : (
-                            <FaSave
-                                className="cursor-pointer hover:text-white/90"
+                            <FaRegSave
+                                className="cursor-pointer hover:text-orange-500"
                                 size={20}
-                                onClick={() => addToWatchlist}
+                                onClick={addToWatchlist}
                             />
                         )}
                     </div>

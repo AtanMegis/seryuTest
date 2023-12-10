@@ -14,7 +14,7 @@ const Navbar = ({ openAuth, isLoggedIn, logout }) => {
     }
 
     return (
-        <div className="max-w-full h-24 bg-softBlue sticky flex justify-between px-24 items-center ">
+        <div className="w-full h-24 bg-softBlue fixed z-10 flex justify-between px-24 items-center ">
             <h1
                 className="text-3xl font-black tracking-widest text-white hover:cursor-pointer hover:text-slate-300"
                 onClick={() => {

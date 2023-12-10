@@ -15,3 +15,9 @@ export const searchMovie = async (q) => {
     )
     return search.data
 }
+
+export const truncateStr = (text, limit) => {
+    if (text.length > limit) {
+        return text.slice(0, limit) + '...'
+    } else return text
+}

@@ -8,6 +8,7 @@ import {
     requestAPI,
     searchMovie,
     IMG_KEY,
+    truncateStr,
 } from '../helper/requestAPI.js'
 import { ToastContainer, toast } from 'react-toastify'
 import Card from '../components/Card/Card.jsx'
@@ -20,32 +21,12 @@ const Home = () => {
     const [topRated, setTopRated] = useState([])
     const [findMovie, setFindMovie] = useState([])
     const [searchInput, setSearchInput] = useState('')
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isAuthOpen, setIsAuthOpen] = useState(false)
     const [favorite, setFavorite] = useState([])
     const [watchlist, setWatchlist] = useState([])
     const [flag, setFlag] = useState(false)
-
-    const getNowPlaying = async () => {
-        try {
-            const res = await axios.get(requestAPI.requestNowPlaying)
-            const data = await res.data.results
-            setNowPlaying(data)
-        } catch (error) {
-            toast.error(error.message)
-        }
-    }
-
-    const getTopRated = async () => {
-        try {
-            const res = await axios.get(requestAPI.requestTopRated)
-            const data = await res.data.results
-            setTopRated(data)
-        } catch (error) {
-            toast.error(error.message)
-        }
-    }
 
     useEffect(() => {
         const getSessionId = async () => {
@@ -55,29 +36,48 @@ const Home = () => {
         const getUserData = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
+                    const res = await axios.get(
                         `${BASE_URL}/account?api_key=${API_KEY}&session_id=${Cookies.get(
                             'session_id'
                         )}`
                     )
-                    setUserData(response.data)
+                    setUserData(res.data)
                 } catch (error) {
                     toast.error(error.message)
                 }
+            }
+        }
+        const getNowPlaying = async () => {
+            try {
+                const res = await axios.get(requestAPI.requestNowPlaying)
+                const data = await res.data.results
+                setNowPlaying(data)
+            } catch (error) {
+                toast.error(error.message)
+            }
+        }
+
+        const getTopRated = async () => {
+            try {
+                const res = await axios.get(requestAPI.requestTopRated)
+                const data = await res.data.results
+                setTopRated(data)
+            } catch (error) {
+                toast.error(error.message)
             }
         }
 
         const getFavorite = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
+                    const res = await axios.get(
                         `${BASE_URL}/account/${
-                            userData.id
+                            userData?.id
                         }/favorite/movies?api_key=${API_KEY}&session_id=${Cookies.get(
                             'session_id'
                         )}&language=en-US&sort_by=created_at.asc&page=1`
                     )
-                    setFavorite(response.data.results)
+                    setFavorite(res.data.results)
                 } catch (error) {
                     toast.error(error.message)
                 }
@@ -87,14 +87,14 @@ const Home = () => {
         const getWatchlist = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
+                    const res = await axios.get(
                         `${BASE_URL}/account/${
-                            userData.id
+                            userData?.id
                         }/watchlist/movies?api_key=${API_KEY}&session_id=${Cookies.get(
                             'session_id'
                         )}&language=en-US&sort_by=created_at.asc&page=1`
                     )
-                    setWatchlist(response.data.results)
+                    setWatchlist(res.data.results)
                 } catch (error) {
                     toast.error(error.message)
                 }
@@ -170,6 +170,7 @@ const Home = () => {
                     favorite: false,
                 }
             )
+
             toast.success(res.data.status_message)
         } catch (error) {
             toast.error(error.message)
@@ -182,7 +183,7 @@ const Home = () => {
         try {
             const res = await axios.post(
                 `${BASE_URL}/account/${
-                    userData.id
+                    userData?.id
                 }/watchlist?api_key=${API_KEY}&session_id=${Cookies.get(
                     'session_id'
                 )}`,
@@ -210,12 +211,6 @@ const Home = () => {
         }
     }
 
-    const truncateStr = (text, limit) => {
-        if (text.length > limit) {
-            return text.slice(0, limit) + '...'
-        } else return text
-    }
-
     const logoutSession = async () => {
         try {
             await axios.delete(
@@ -231,7 +226,7 @@ const Home = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
     return (
@@ -250,7 +245,7 @@ const Home = () => {
                     {/* SearchBar Handler */}
                     <input
                         placeholder="Find movies..."
-                        className="w-full h-12 px-4 rounded-md mb-6 bg-white/90"
+                        className="w-full h-12 px-4 rounded-md mb-6 mt-20 bg-white/90"
                         value={searchInput}
                         onChange={({ target }) => handleSearch(target.value)}
                     />
@@ -269,26 +264,26 @@ const Home = () => {
                                         img={`${IMG_KEY}/${movie?.poster_path}`}
                                         year={movie?.release_date}
                                         addToFavoriteList={() =>
-                                            addToFavorite(movie.id)
+                                            addToFavorite(movie?.id)
                                         }
                                         addToWatchlist={() =>
-                                            addToWatchlist(movie.id)
+                                            addToWatchlist(movie?.id)
                                         }
                                         removeFromFavorite={() =>
-                                            removeFromFavorite(movie.id)
+                                            removeFromFavorite(movie?.id)
                                         }
                                         removeFromWatchlist={() =>
-                                            removeFromWatchlist(movie.id)
+                                            removeFromWatchlist(movie?.id)
                                         }
                                         isLoggedIn={isLoggedIn}
                                         redirectDetail={() =>
-                                            navigate(`/movie/${movie.id}`)
+                                            navigate(`/movie/${movie?.id}`)
                                         }
                                         isFavorited={favorite.some(
-                                            (item) => item === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                         isWatchlisted={watchlist.some(
-                                            (item) => item.id === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                     />
                                 ))}
@@ -310,26 +305,26 @@ const Home = () => {
                                         img={`${IMG_KEY}/${movie?.poster_path}`}
                                         year={movie?.release_date}
                                         addToFavoriteList={() =>
-                                            addToFavorite(movie.id)
+                                            addToFavorite(movie?.id)
                                         }
                                         addToWatchlist={() =>
-                                            addToWatchlist(movie.id)
+                                            addToWatchlist(movie?.id)
                                         }
                                         removeFromFavorite={() =>
-                                            removeFromFavorite(movie.id)
+                                            removeFromFavorite(movie?.id)
                                         }
                                         removeFromWatchlist={() =>
-                                            removeFromWatchlist(movie.id)
+                                            removeFromWatchlist(movie?.id)
                                         }
                                         isLoggedIn={isLoggedIn}
                                         redirectDetail={() =>
-                                            navigate(`/movie/${movie.id}`)
+                                            navigate(`/movie/${movie?.id}`)
                                         }
                                         isFavorited={favorite.some(
-                                            (item) => item === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                         isWatchlisted={watchlist.some(
-                                            (item) => item.id === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                     />
                                 ))}
@@ -351,26 +346,26 @@ const Home = () => {
                                         img={`${IMG_KEY}/${movie?.poster_path}`}
                                         year={movie?.release_date}
                                         addToFavoriteList={() =>
-                                            addToFavorite(movie.id)
+                                            addToFavorite(movie?.id)
                                         }
                                         addToWatchlist={() =>
-                                            addToWatchlist(movie.id)
+                                            addToWatchlist(movie?.id)
                                         }
                                         removeFromFavorite={() =>
-                                            removeFromFavorite(movie.id)
+                                            removeFromFavorite(movie?.id)
                                         }
                                         removeFromWatchlist={() =>
-                                            removeFromWatchlist(movie.id)
+                                            removeFromWatchlist(movie?.id)
                                         }
                                         isLoggedIn={isLoggedIn}
                                         redirectDetail={() =>
-                                            navigate(`/movie/${movie.id}`)
+                                            navigate(`/movie/${movie?.id}`)
                                         }
                                         isFavorited={favorite.some(
-                                            (item) => item === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                         isWatchlisted={watchlist.some(
-                                            (item) => item.id === movie.id
+                                            (item) => item.id === movie?.id
                                         )}
                                     />
                                 ))}

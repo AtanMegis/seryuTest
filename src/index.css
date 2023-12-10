@@ -41,6 +41,7 @@
 }
 
 ::-webkit-scrollbar {
+    display: inline-block;
     width: 2px;
     height: 8px;
 }

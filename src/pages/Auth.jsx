@@ -49,7 +49,6 @@ const Auth = ({ closeModal, openModal }) => {
             setIsLoading(true)
             setLoadingMsg('Failed to Authenticated')
             toast.error(error.message)
-            console.log({ error: error.message })
         } finally {
             setTimeout(() => {
                 setIsLoading(false)
