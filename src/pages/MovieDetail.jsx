@@ -501,7 +501,7 @@ const MovieDetail = () => {
                                     navigate(`/movie/${movie?.id}`)
                                 }
                                 isFavorited={favorite.some(
-                                    (item) => item === movie?.id
+                                    (item) => item.id === movie?.id
                                 )}
                                 isWatchlisted={watchlist.some(
                                     (item) => item.id === movie?.id
