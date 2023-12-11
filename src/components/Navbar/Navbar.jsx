@@ -16,7 +16,7 @@ const Navbar = ({ openAuth, isLoggedIn, logout }) => {
     return (
         <div className="w-full h-28 sm:h-24 bg-softBlue fixed z-10 flex flex-col sm:flex-row gap-5 sm:justify-between px-24 items-center pt-4 sm:pt-0">
             <h1
-                className="text-3xl font-black tracking-widest text-white hover:cursor-pointer hover:text-slate-300"
+                className="text-3xl font-black tracking-widest text-white hover:cursor-pointer hover:text-orange-300 "
                 onClick={() => {
                     navigate('/')
                 }}
@@ -31,7 +31,7 @@ const Navbar = ({ openAuth, isLoggedIn, logout }) => {
                         <li onClick={handleWatchlistClick}>Watchlist</li>
                         <button
                             onClick={logout}
-                            className="hover:text-slate-300 text-white mx-2"
+                            className="hover:text-orange-300 text-white mx-2"
                         >
                             <MdLogout size={22} />
                         </button>

@@ -19,42 +19,44 @@ const Card = ({
 }) => {
     return (
         <div className="relative w-48 min-w-fit h-[360px] bg-softBlack group hover:opacity-100 rounded-sm">
-            <div className="w-48 h-[290px] object-cover rounded-tr-sm rounded-tl-sm">
-                <img
-                    src={img}
-                    alt={title}
-                    className="aspect-auto rounded-tr-sm rounded-tl-sm"
-                />
-                {isLoggedIn && (
-                    <div className="flex gap-4 absolute -mt-[2rem] ml-[7.5rem] opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
-                        {isFavorited ? (
-                            <FaHeart
-                                className="cursor-pointer hover:text-orange-500"
-                                size={20}
-                                onClick={removeFromFavorite}
-                            />
-                        ) : (
-                            <FaRegHeart
-                                className="cursor-pointer hover:text-orange-500"
-                                size={20}
-                                onClick={addToFavoriteList}
-                            />
-                        )}
-                        {isWatchlisted ? (
-                            <FaSave
-                                className="cursor-pointer hover:text-orange-500"
-                                size={20}
-                                onClick={removeFromWatchlist}
-                            />
-                        ) : (
-                            <FaRegSave
-                                className="cursor-pointer hover:text-orange-500"
-                                size={20}
-                                onClick={addToWatchlist}
-                            />
-                        )}
-                    </div>
-                )}
+            <div className="w-48 h-[290px] object-cover rounded-tr-sm rounded-tl-sm ">
+                <div>
+                    <img
+                        src={img}
+                        alt={title}
+                        className="aspect-auto rounded-tr-sm rounded-tl-sm group-hover:opacity-70"
+                    />
+                    {isLoggedIn && (
+                        <div className="flex gap-4 absolute bottom-20 text-white  -mt-[2rem] ml-[7.5rem] opacity-100 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
+                            {isFavorited ? (
+                                <FaHeart
+                                    className="cursor-pointer hover:text-orange-500"
+                                    size={20}
+                                    onClick={removeFromFavorite}
+                                />
+                            ) : (
+                                <FaRegHeart
+                                    className="cursor-pointer hover:text-orange-500"
+                                    size={20}
+                                    onClick={addToFavoriteList}
+                                />
+                            )}
+                            {isWatchlisted ? (
+                                <FaSave
+                                    className="cursor-pointer hover:text-orange-500"
+                                    size={20}
+                                    onClick={removeFromWatchlist}
+                                />
+                            ) : (
+                                <FaRegSave
+                                    className="cursor-pointer hover:text-orange-500"
+                                    size={20}
+                                    onClick={addToWatchlist}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="flex flex-col text-gray p-3 gap-1">
                 <p

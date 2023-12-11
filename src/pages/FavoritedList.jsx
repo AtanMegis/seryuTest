@@ -9,6 +9,7 @@ import {
     API_KEY,
     BASE_URL,
     IMG_KEY,
+    logoutSession,
     truncateStr,
 } from '../helper/requestAPI.js'
 const FavoritedList = () => {
@@ -16,7 +17,7 @@ const FavoritedList = () => {
     const [favorite, setFavorite] = useState([])
     const [isLoggedIn, setIsLoggedIn] = useState(true)
     const [userData, setUserData] = useState({})
-    const [updateFlag, setUpdateFlag] = useState(false)
+    const [flag, setFlag] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -77,25 +78,10 @@ const FavoritedList = () => {
         getSessionId()
         getFavorite()
         getWatchlist()
-    }, [isLoggedIn, userData.id, updateFlag])
+    }, [isLoggedIn, userData.id, flag])
 
-    const logoutSession = async () => {
-        try {
-            await axios.delete(
-                `${BASE_URL}/authentication/session?api_key=${API_KEY}`,
-                {
-                    data: {
-                        session_id: Cookies.get('session_id'),
-                    },
-                }
-            )
-            Cookies.remove('session_id')
-            setIsLoggedIn(false)
-        } catch (error) {
-            toast.error(error.message)
-        } finally {
-            setUpdateFlag(!updateFlag)
-        }
+    const handleLogout = async () => {
+        await logoutSession(setIsLoggedIn, setFlag)
     }
 
     const addToFavorite = async (id) => {
@@ -116,7 +102,7 @@ const FavoritedList = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
@@ -138,7 +124,7 @@ const FavoritedList = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
@@ -160,7 +146,7 @@ const FavoritedList = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
@@ -169,7 +155,7 @@ const FavoritedList = () => {
             const res = await axios.post(
                 `${BASE_URL}/account/${
                     userData.id
-                }/watchlist?api_key=${API_KEYI}&session_id=${Cookies.get(
+                }/watchlist?api_key=${API_KEY}&session_id=${Cookies.get(
                     'session_id'
                 )}`,
                 {
@@ -182,13 +168,13 @@ const FavoritedList = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
     return (
         <div className="w-screen min-h-screen">
-            <Navbar isLoggedIn={isLoggedIn} logout={logoutSession} />
+            <Navbar isLoggedIn={isLoggedIn} logout={handleLogout} />
             <div className="w-full h-full sm:px-24 pt-32 px-16">
                 <h2 className="flex justify-center  sm:justify-start text-2xl sm:text-3xl font-semibold pb-5 text-white/80">
                     Favorite List

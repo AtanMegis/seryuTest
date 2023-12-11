@@ -9,6 +9,8 @@ import {
     searchMovie,
     IMG_KEY,
     truncateStr,
+    logoutSession,
+    addToFavorite,
 } from '../helper/requestAPI.js'
 import { ToastContainer, toast } from 'react-toastify'
 import Card from '../components/Card/Card.jsx'
@@ -211,31 +213,17 @@ const Home = () => {
         }
     }
 
-    const logoutSession = async () => {
-        try {
-            await axios.delete(
-                `${BASE_URL}/authentication/session?api_key=${API_KEY}`,
-                {
-                    data: {
-                        session_id: Cookies.get('session_id'),
-                    },
-                }
-            )
-            Cookies.remove('session_id')
-            setIsLoggedIn(false)
-        } catch (error) {
-            toast.error(error.message)
-        } finally {
-            setFlag(!flag)
-        }
+    const handleLogout = async () => {
+        await logoutSession(setIsLoggedIn, setFlag)
     }
+
     return (
         <>
             <div className="w-screen min-h-screen">
                 <Navbar
                     isLoggedIn={isLoggedIn}
                     openAuth={() => setIsAuthOpen(true)}
-                    logout={logoutSession}
+                    logout={handleLogout}
                 />
                 <Auth
                     closeModal={() => setIsAuthOpen(false)}
@@ -245,7 +233,7 @@ const Home = () => {
                     {/* SearchBar Handler */}
                     <input
                         placeholder="Find movies..."
-                        className="w-full h-12 px-4 rounded-md mb-6 mt-20 bg-white/90"
+                        className="w-full h-12 px-4 rounded-md mb-6 sm:mt-20 mt-24 bg-white/90"
                         value={searchInput}
                         onChange={({ target }) => handleSearch(target.value)}
                     />

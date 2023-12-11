@@ -17,7 +17,7 @@ const WatchList = () => {
     const [favorite, setFavorite] = useState([])
     const [isLoggedIn, setIsLoggedIn] = useState(true)
     const [userData, setUserData] = useState({})
-    const [updateFlag, setUpdateFlag] = useState(false)
+    const [flag, setFlag] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -28,13 +28,13 @@ const WatchList = () => {
         const getUserData = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
-                        `https://api.themoviedb.org/3/account?api_key=${
-                            import.meta.env.VITE_API_KEY
-                        }&session_id=${Cookies.get('session_id')}`
+                    const res = await axios.get(
+                        `${BASE_URL}/account?api_key=${API_KEY}&session_id=${Cookies.get(
+                            'session_id'
+                        )}`
                     )
 
-                    setUserData(response.data)
+                    setUserData(res.data)
                 } catch (error) {
                     toast.error(error.message)
                 }
@@ -44,16 +44,14 @@ const WatchList = () => {
         const getFavorite = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
-                        `https://api.themoviedb.org/3/account/${
+                    const res = await axios.get(
+                        `${BASE_URL}/account/${
                             userData.id
-                        }/favorite/movies?api_key=${
-                            import.meta.env.VITE_API_KEY
-                        }&session_id=${Cookies.get(
+                        }/favorite/movies?api_key=${API_KEY}&session_id=${Cookies.get(
                             'session_id'
                         )}&language=en-US&sort_by=created_at.asc&page=1`
                     )
-                    setFavorite(response.data.results)
+                    setFavorite(res.data.results)
                 } catch (error) {
                     toast.error(error.message)
                 }
@@ -63,17 +61,15 @@ const WatchList = () => {
         const getWatchlist = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.get(
-                        `https://api.themoviedb.org/3/account/${
+                    const res = await axios.get(
+                        `${BASE_URL}/account/${
                             userData.id
-                        }/watchlist/movies?api_key=${
-                            import.meta.env.VITE_API_KEY
-                        }&session_id=${Cookies.get(
+                        }/watchlist/movies?api_key=${API_KEY}&session_id=${Cookies.get(
                             'session_id'
                         )}&language=en-US&sort_by=created_at.asc&page=1`
                     )
 
-                    setWatchlist(response.data.results)
+                    setWatchlist(res.data.results)
                 } catch (error) {
                     toast.error(error.message)
                 }
@@ -84,7 +80,7 @@ const WatchList = () => {
         getSessionId()
         getFavorite()
         getWatchlist()
-    }, [isLoggedIn, userData.id, updateFlag])
+    }, [isLoggedIn, userData.id, flag])
 
     const logoutSession = async () => {
         try {
@@ -101,95 +97,95 @@ const WatchList = () => {
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
     const addToFavorite = async (id) => {
         try {
-            const response = await axios.post(
-                `https://api.themoviedb.org/3/account/${
+            const res = await axios.post(
+                `${BASE_URL}/account/${
                     userData.id
-                }/favorite?api_key=${
-                    import.meta.env.VITE_API_KEY
-                }&session_id=${Cookies.get('session_id')}`,
+                }/favorite?api_key=${API_KEY}&session_id=${Cookies.get(
+                    'session_id'
+                )}`,
                 {
                     media_type: 'movie',
                     media_id: id,
                     favorite: true,
                 }
             )
-            toast.success(response.data.status_message)
+            toast.success(res.data.status_message)
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
     const addToWatchlist = async (id) => {
         try {
-            const response = await axios.post(
-                `https://api.themoviedb.org/3/account/${
+            const res = await axios.post(
+                `${BASE_URL}/account/${
                     userData.id
-                }/watchlist?api_key=${
-                    import.meta.env.VITE_API_KEY
-                }&session_id=${Cookies.get('session_id')}`,
+                }/watchlist?api_key=${API_KEY}&session_id=${Cookies.get(
+                    'session_id'
+                )}`,
                 {
                     media_type: 'movie',
                     media_id: id,
                     watchlist: true,
                 }
             )
-            toast.success(response.data.status_message)
+            toast.success(res.data.status_message)
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
     const removeFromFavorite = async (id) => {
         try {
-            const response = await axios.post(
-                `https://api.themoviedb.org/3/account/${
+            const res = await axios.post(
+                `${BASE_URL}/account/${
                     userData.id
-                }/favorite?api_key=${
-                    import.meta.env.VITE_API_KEY
-                }&session_id=${Cookies.get('session_id')}`,
+                }/favorite?api_key=${API_KEY}&session_id=${Cookies.get(
+                    'session_id'
+                )}`,
                 {
                     media_type: 'movie',
                     media_id: id,
                     favorite: false,
                 }
             )
-            toast.success(response.data.status_message)
+            toast.success(res.data.status_message)
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
     const removeFromWatchlist = async (id) => {
         try {
-            const response = await axios.post(
-                `https://api.themoviedb.org/3/account/${
+            const res = await axios.post(
+                `${BASE_URL}/account/${
                     userData.id
-                }/watchlist?api_key=${
-                    import.meta.env.VITE_API_KEY
-                }&session_id=${Cookies.get('session_id')}`,
+                }/watchlist?api_key=${API_KEY}&session_id=${Cookies.get(
+                    'session_id'
+                )}`,
                 {
                     media_type: 'movie',
                     media_id: id,
                     watchlist: false,
                 }
             )
-            toast.success(response.data.status_message)
+            toast.success(res.data.status_message)
         } catch (error) {
             toast.error(error.message)
         } finally {
-            setUpdateFlag(!updateFlag)
+            setFlag(!flag)
         }
     }
 
@@ -223,7 +219,7 @@ const WatchList = () => {
                                     navigate(`/movie/${movie?.id}`)
                                 }
                                 isFavorited={favorite.some(
-                                    (item) => item === movie?.id
+                                    (item) => item.id === movie?.id
                                 )}
                                 isWatchlisted={watchlist.some(
                                     (item) => item.id === movie?.id
