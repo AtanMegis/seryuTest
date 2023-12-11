@@ -110,7 +110,7 @@ const Auth = ({ closeModal, openModal }) => {
                         <>
                             {isAuth == null || isAuth ? (
                                 <p
-                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-sm pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={authenticatedHandler}
                                 >
                                     {loadingMsg === 'Pending Authorization'
@@ -123,7 +123,7 @@ const Auth = ({ closeModal, openModal }) => {
                         <>
                             {isLoaded ? (
                                 <p
-                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-sm pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={() => {
                                         setIsLoaded(false)
                                         setIsAuth(null)
@@ -133,7 +133,7 @@ const Auth = ({ closeModal, openModal }) => {
                                 </p>
                             ) : (
                                 <p
-                                    className="text-white text-xs pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
+                                    className="text-white text-sm pt-6 hover:cursor-pointer hover:opacity-50 transition duration-100 ease-in-out"
                                     onClick={closeModal}
                                 >
                                     Close

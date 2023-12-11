@@ -196,13 +196,12 @@ const WatchList = () => {
     return (
         <div className="w-screen min-h-screen">
             <Navbar isLoggedIn={isLoggedIn} logout={logoutSession} />
-            <div className="px-12 sm:px-24 py-12 text-white/90">
-                <p className="text-3xl font-semibold pt-16 pb-8">Watchlist</p>
-                <div className="flex gap-8 sm:gap-[1.64rem] w-full flex-wrap justify-center sm:justify-start">
+            <div className="w-full h-full sm:px-24 pt-32 px-16">
+                <h2 className="flex justify-center  sm:justify-start text-2xl sm:text-3xl font-semibold pb-5 text-white/80">
+                    Watchlist
+                </h2>
+                <div className="content-div sm:justify-start justify-center">
                     {watchlist.map((movie) => {
-                        {
-                            /* console.log('Movie ID:', movie.id) */
-                        }
                         return (
                             <Card
                                 key={movie?.id}

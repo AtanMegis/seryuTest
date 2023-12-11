@@ -241,7 +241,7 @@ const Home = () => {
                     closeModal={() => setIsAuthOpen(false)}
                     openModal={isAuthOpen}
                 />
-                <div className="w-full h-full px-24 pt-12">
+                <div className="w-full h-full sm:px-24 pt-12 px-16">
                     {/* SearchBar Handler */}
                     <input
                         placeholder="Find movies..."
@@ -253,10 +253,10 @@ const Home = () => {
                     {/* Searched Movie Handler */}
                     {searchInput.length > 0 && findMovie.length > 0 && (
                         <div className="pt-4">
-                            <h2 className="text-3xl font-semibold pb-4 text-white/80">
+                            <h2 className="flex justify-center  sm:justify-start text-2xl sm:text-3xl font-semibold pb-4 text-white/80">
                                 Searched Movie
                             </h2>
-                            <div className="content-div">
+                            <div className="content-div sm:justify-start justify-center">
                                 {findMovie.map((movie) => (
                                     <Card
                                         key={movie?.id}
@@ -293,8 +293,8 @@ const Home = () => {
 
                     {/* Now Playing Handler */}
                     {searchInput.length === 0 && nowPlaying.length > 0 && (
-                        <div className="w-full">
-                            <h2 className="text-3xl font-semibold pb-4 text-white/80">
+                        <div className="w-full ">
+                            <h2 className="flex justify-center  sm:justify-start text-2xl sm:text-3xl font-semibold pb-4 text-white/80">
                                 Now Playing
                             </h2>
                             <div className="content-div_scroll">
@@ -335,10 +335,10 @@ const Home = () => {
                     {/* Top Rated Handler */}
                     {searchInput.length === 0 && topRated.length > 0 && (
                         <div className="pt-6">
-                            <h2 className="text-3xl font-semibold pb-4 text-white/80">
+                            <h2 className="flex justify-center  sm:justify-start text-2xl sm:text-3xl font-semibold pb-4 text-white/80">
                                 Top Rated
                             </h2>
-                            <div className="content-div">
+                            <div className="content-div sm:justify-start justify-center">
                                 {topRated?.map((movie) => (
                                     <Card
                                         key={movie?.id}
